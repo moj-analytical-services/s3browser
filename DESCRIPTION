@@ -11,4 +11,9 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   shiny,
-  miniUI
+  miniUI,
+  stringr,
+  rstudioapi
+Remotes: 
+  moj-analytical-services/s3tools
+RoxygenNote: 6.0.1

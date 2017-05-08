@@ -42,5 +42,3 @@ file_browse_addin <- function() {
   shiny::runGadget(ui, server, viewer = viewer)
 
 }
-
-file_browse_addin()
