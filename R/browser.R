@@ -11,6 +11,7 @@ file_browse_addin <- function() {
   ui <- miniUI::miniPage(
     miniUI::gadgetTitleBar("Select a row and hit 'done' to insert R code to read the data"),
     miniUI::miniContentPanel(
+      shiny::checkboxInput("preview", "Preview files on select?"),
       DT::dataTableOutput("files_table", height= "400px")
     )
   )
@@ -36,6 +37,15 @@ file_browse_addin <- function() {
 
     })
 
+    observeEvent(input$files_table_rows_selected, {
+      if (input$preview) {
+        id <- input$files_table_rows_selected
+        sel <- as.list(df[id,])
+        df <- s3tools::s3_path_to_preview_df(sel$path)
+        View(df)
+      }
+    })
+
   }
 
   # We'll use a pane viwer, and set the minimum height at
@@ -43,5 +53,3 @@ file_browse_addin <- function() {
   shiny::runGadget(ui, server, viewer = viewer)
 
 }
-
-
