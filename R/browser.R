@@ -2,7 +2,8 @@
 # First, let's just have two buttons, which write different code
 
 
-# We'll wrap our Shiny Gadget in an addin.
+#' We'll wrap our Shiny Gadget in an addin.
+#' @export
 file_browse_addin <- function() {
 
   # Our ui will be a simple gadget page, which
@@ -42,3 +43,5 @@ file_browse_addin <- function() {
   shiny::runGadget(ui, server, viewer = viewer)
 
 }
+
+
