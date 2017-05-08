@@ -13,7 +13,8 @@ Imports:
   shiny,
   miniUI,
   stringr,
-  rstudioapi
+  rstudioapi,
+  DT
 Remotes: 
   moj-analytical-services/s3tools
 RoxygenNote: 6.0.1
