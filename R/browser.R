@@ -32,7 +32,7 @@ file_browse_addin <- function() {
       output_str <- stringr::str_interp("s3tools::s3_path_to_full_df(\"${sel$path}\")")
 
       rstudioapi::insertText(output_str)
-      stopApp()
+      shiny::stopApp()
 
     })
 
