@@ -50,7 +50,7 @@ file_browse_addin <- function() {
 
   # We'll use a pane viwer, and set the minimum height at
   viewer <- shiny::paneViewer(500)
-  # shiny::runGadget(ui, server, viewer = viewer)
-  shiny::shinyApp(ui, server)
+  shiny::runGadget(ui, server, viewer = viewer)
+  # shiny::shinyApp(ui, server)
 
 }
