@@ -4,16 +4,20 @@
 
 #' We'll wrap our Shiny Gadget in an addin.
 #' @export
+#' @importFrom magrittr %>%
 file_browse_addin <- function() {
 
   # Our ui will be a simple gadget page, which
   # simply displays the time in a 'UI' output.
   ui <- miniUI::miniPage(
-    miniUI::gadgetTitleBar("Select a row and hit 'done' to insert R code to read the data"),
+    miniUI::gadgetTitleBar("Select rows. 'Done' inserts code."),
     miniUI::miniContentPanel(
-      shiny::checkboxInput("preview", "Preview files on select?"),
-      DT::dataTableOutput("files_table", height= "400px")
-    )
+      div(style="display: inline-block;vertical-align:top; width: 64%;",
+            shiny::textInput("search", "Search (regex)", "")),
+      div(style="display: inline-block;vertical-align:middle; width: 30%;",
+          shiny::checkboxInput("preview", "Preview files?", TRUE))
+    ),
+    DT::dataTableOutput("files_table", height= "400px")
   )
 
   df <- s3tools::accessible_files_df()
@@ -22,17 +26,33 @@ file_browse_addin <- function() {
 
   server <- function(input, output, session) {
 
-    output$files_table <-  DT::renderDataTable(df, selection = list(mode = 'single', target = 'row'))
+    df_filtered <- shiny::reactive({
+      regex <- input$search
+
+      df2 <- tryCatch({
+        df %>%
+          dplyr::filter(stringr::str_detect(path, regex))
+        },
+        error = function(e) {
+          message("Your serach is not a valid regular expression, searching on exact string")
+          df %>%
+            dplyr::filter(stringr::str_detect(path, stringr::coll(regex)))
+        }
+      )
+
+      df2
+    })
+
+    output$files_table <-  DT::renderDataTable(df_filtered(), selection = list(mode = 'single', target = 'row'), options = list(dom = 'tp'))
     # Listen for 'done' events. When we're finished, we'll
     # insert the current time, and then stop the gadget.
     observeEvent(input$done, {
-
       id <- input$files_table_rows_selected
-      sel <- as.list(df[id,])
-
-      output_str <- stringr::str_interp("s3tools::s3_path_to_full_df(\"${sel$path}\")")
-
-      rstudioapi::insertText(output_str)
+      if (!(is.null(id))) {
+        sel <- as.list(df[id,])
+        output_str <- stringr::str_interp("s3tools::s3_path_to_full_df(\"${sel$path}\")")
+        rstudioapi::insertText(output_str)
+      }
       shiny::stopApp()
 
     })
@@ -41,8 +61,11 @@ file_browse_addin <- function() {
       if (input$preview) {
         id <- input$files_table_rows_selected
         sel <- as.list(df[id,])
-        df <- s3tools::s3_path_to_preview_df(sel$path)
-        View(df)
+        tryCatch({df <- s3tools::s3_path_to_preview_df(sel$path)
+                 View(df)},
+                 error = function(e) {message("You selected a file that could not be previewed using read_csv")}
+        )
+
       }
     })
 
