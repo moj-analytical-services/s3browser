@@ -12,9 +12,9 @@ file_browse_addin <- function() {
   ui <- miniUI::miniPage(
     miniUI::gadgetTitleBar("Select rows. 'Done' inserts code."),
     miniUI::miniContentPanel(
-      div(style="display: inline-block;vertical-align:top; width: 64%;",
+      shiny::div(style="display: inline-block;vertical-align:top; width: 64%;",
             shiny::textInput("search", "Search (regex)", "")),
-      div(style="display: inline-block;vertical-align:middle; width: 30%;",
+      shiny::div(style="display: inline-block;vertical-align:middle; width: 30%;",
           shiny::checkboxInput("preview", "Preview files?", TRUE))
     ),
     DT::dataTableOutput("files_table", height= "400px")
