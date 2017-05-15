@@ -19,7 +19,8 @@ Imports:
   tools,
   htmltools,
   jsonlite,
-  feather
+  feather,
+  dplyr
 Remotes: 
   moj-analytical-services/s3tools
 RoxygenNote: 6.0.1
