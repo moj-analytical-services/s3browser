@@ -54,8 +54,8 @@ s3_dir_shiny_files <- function(current_path=''){
 
   #Store a local copy of the dir structure and refresh once per minute
   feather_location <- paste(system.file(package='s3browser'), 'dir.feather', sep='/')
-  if(file.exists(feather_location) &
-     as.numeric(file.info(feather_location)$mtime) - as.numeric(Sys.time()) < 60){
+  if(file.exists(feather_location) &&
+     as.numeric(file.info(feather_location)$mtime) - as.numeric(Sys.time()) > -60){
     file_list <- feather::read_feather(feather_location)
   }else{
     #Get files
