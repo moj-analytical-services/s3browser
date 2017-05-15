@@ -60,7 +60,7 @@ s3_dir_shiny_files <- function(current_path=''){
   }else{
     #Get files
     message('fetching file tree...')
-    accessible_buckets() %>%
+    s3tools::accessible_buckets() %>%
       purrr::map(aws.s3::get_bucket) %>%
       purrr::keep(function(x) {length(x) > 0}) %>%
       purrr::map(bucket_contents_to_shiny_files_df) %>%
