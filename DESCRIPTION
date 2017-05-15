@@ -15,7 +15,8 @@ Imports:
   stringr,
   rstudioapi,
   DT,
-  s3tools
+  s3tools,
+  httpuv
 Remotes: 
   moj-analytical-services/s3tools
 RoxygenNote: 6.0.1
