@@ -2,6 +2,7 @@
 
 export(file_browse_addin)
 export(file_explorer_s3)
+import(shiny)
 importFrom(htmltools,singleton)
 importFrom(htmltools,tagList)
 importFrom(htmltools,tags)

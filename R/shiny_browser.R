@@ -4,6 +4,7 @@
 
 #' We'll wrap our Shiny Gadget in an addin.
 #' @export
+#' @import shiny
 file_explorer_s3 <- function() {
 
 
@@ -11,7 +12,7 @@ file_explorer_s3 <- function() {
 
   # Our ui will be a simple gadget page, which
   # simply displays the time in a 'UI' output.
-  ui <- shiny::shinyUI(miniUI::miniPage(bootstrapPage(
+  ui <- shiny::shinyUI(miniUI::miniPage(shiny::bootstrapPage(
     shinyFilesButton('file', 'File select', 'Please select a file', TRUE, buttonType = 'primary'),
     verbatimTextOutput('filepaths')
   )))
