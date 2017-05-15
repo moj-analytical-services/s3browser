@@ -1,10 +1,5 @@
-Name: Browse S3 files
-Description: Browse the files to which the user has access in S3
+Name: Browse/Search S3 files
+Description: Browse or search the files to which the user has access in S3
 Binding: file_explorer_s3
 Interactive: true
 
-
-Name: Search S3 files
-Description: Browse the files to which the user has access in S3
-Binding: file_browse_addin
-Interactive: true
