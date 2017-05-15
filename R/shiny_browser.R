@@ -22,7 +22,7 @@ file_explorer_s3 <- function() {
     miniTabstripPanel(
       miniTabPanel("Browser", icon = icon("files-o"),
                    miniContentPanel(
-                     shiny::includeMarkdown('./inst/widget_guide.md'),
+                     shiny::includeMarkdown('widget_guide.md'),
                      shinyFilesButton('file', 'File select', 'Please select a file', TRUE, buttonType = 'primary'),
                      verbatimTextOutput('filepaths')
                    )
