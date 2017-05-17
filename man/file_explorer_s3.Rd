@@ -2,10 +2,13 @@
 % Please edit documentation in R/shiny_browser.R
 \name{file_explorer_s3}
 \alias{file_explorer_s3}
-\title{We'll wrap our Shiny Gadget in an addin.}
+\title{s3 file explorer}
 \usage{
 file_explorer_s3()
 }
 \description{
-We'll wrap our Shiny Gadget in an addin.
+Selected files will be inseted as s3tools commands into the source pane
+}
+\details{
+Browser currently supports selection of multiple files.
 }
