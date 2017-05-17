@@ -7,6 +7,7 @@
 #' @import shiny
 #' @import miniUI
 #' @importFrom magrittr %>%
+#' @importFrom magrittr %$%
 file_explorer_s3 <- function() {
 
 
@@ -51,10 +52,9 @@ file_explorer_s3 <- function() {
 
     observeEvent(input$file,{
       tryCatch(
-        parseFilePaths(volumes,input$file) %>%
-          split(.$datapath) %>%
-          purrr:::map_chr(shiy_js_to_s3tools_command) %>%
-          purrr:::map(., rstudioapi::insertText)
+        parseFilePaths(volumes,input$file) %$% datapath %>%
+          purrr:::map(s3browser:::shiy_js_to_s3tools_command) %>%
+          purrr::map(rstudioapi:::insertText)
 
       )
       shiny::stopApp()
