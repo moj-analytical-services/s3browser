@@ -20,7 +20,8 @@ Imports:
   jsonlite,
   feather,
   dplyr,
-  httpuv
+  httpuv,
+  markdown
 Remotes: 
   moj-analytical-services/s3tools
 RoxygenNote: 6.0.1
