@@ -7,11 +7,14 @@
 bucket_contents_to_shiny_files_df(bucket_contents)
 }
 \arguments{
-\item{bucket_contents}{}
+\item{bucket_contents}{contents of a bucket from s3tools}
 }
 \value{
 df containing everything required for shiny files
 }
 \description{
 Title
+}
+\examples{
+bucket_contents_to_shiny_files_df(bucket_contents)
 }

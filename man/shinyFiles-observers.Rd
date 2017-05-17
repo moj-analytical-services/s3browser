@@ -3,10 +3,7 @@
 \name{shinyFiles-observers}
 \alias{shinyFiles-observers}
 \alias{shinyFileChoose}
-\title{These function sets up the required connection to the client in order for the
-user to navigate the filesystem. For this to work a matching button should be
-present in the html, either by using one of the button generating functions
-or adding it manually. See \code{\link{shinyFiles-buttons}} for more details.}
+\title{Create a connection to the server side filesystem}
 \usage{
 shinyFileChoose(input, id, updateFreq = 2000, session = getSession(),
   defaultRoot = NULL, defaultPath = "", ...)
@@ -41,6 +38,12 @@ A reactive observer that takes care of the server side logic of the
 filesystem connection.
 }
 \description{
+These function sets up the required connection to the client in order for the
+user to navigate the filesystem. For this to work a matching button should be
+present in the html, either by using one of the button generating functions
+or adding it manually. See \code{\link{shinyFiles-buttons}} for more details.
+}
+\details{
 Restrictions on the access rights of the client can be given in several ways.
 The root parameter specifies the starting position for the filesystem as
 presented to the client. This means that the client can only navigate in

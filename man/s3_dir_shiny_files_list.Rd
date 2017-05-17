@@ -7,11 +7,20 @@
 s3_dir_shiny_files_list(roots, restrictions, filetypes, hidden = FALSE)
 }
 \arguments{
-\item{hidden}{}
+\item{roots}{roots from shinyfiles server addins}
+
+\item{restrictions}{not used}
+
+\item{filetypes}{not used}
+
+\item{hidden}{not used}
 }
 \value{
 a list compatable with shinyfiles
 }
 \description{
 Title
+}
+\examples{
+do.call(s3_dir_shiny_files_list, list(...))
 }

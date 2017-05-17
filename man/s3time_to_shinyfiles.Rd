@@ -15,3 +15,6 @@ shinyfile compatible time strings
 \description{
 s3time to shinyfiles time convertor
 }
+\examples{
+s3time_to_shinyfiles(s3times)
+}

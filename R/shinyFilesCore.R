@@ -1,4 +1,4 @@
-' Create a connection to the server side filesystem
+#' Create a connection to the server side filesystem
 #'
 #' These function sets up the required connection to the client in order for the
 #' user to navigate the filesystem. For this to work a matching button should be

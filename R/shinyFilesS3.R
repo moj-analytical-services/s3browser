@@ -5,7 +5,7 @@
 #' @return shinyfile compatible time strings
 #'
 #'
-#' @examples
+#' @examples s3time_to_shinyfiles(s3times)
 s3time_to_shinyfiles <- function(time){
   time <- stringr::str_sub(time,end = -6)
   time <- stringr::str_replace_all(time, 'T', '-')
@@ -17,12 +17,12 @@ s3time_to_shinyfiles <- function(time){
 
 #' Title
 #'
-#' @param bucket_contents
+#' @param bucket_contents contents of a bucket from s3tools
 #'
 #' @return df containing everything required for shiny files
 
 #' @importFrom magrittr %>%
-#' @examples
+#' @examples bucket_contents_to_shiny_files_df(bucket_contents)
 bucket_contents_to_shiny_files_df <- function (bucket_contents) {
 
   df <- bucket_contents %>%
@@ -48,7 +48,7 @@ bucket_contents_to_shiny_files_df <- function (bucket_contents) {
 #' @return df with required shinyfiles fields
 
 #' @importFrom magrittr %>%
-#' @examples
+#' @examples s3_dir_shiny_files('bucket/dir/')
 s3_dir_shiny_files <- function(current_path=''){
 
 
@@ -106,15 +106,15 @@ s3_dir_shiny_files <- function(current_path=''){
 
 #' Title
 #'
-#' @param roots
-#' @param restrictions
-#' @param filetypes
-#' @param hidden
+#' @param roots roots from shinyfiles server addins
+#' @param restrictions not used
+#' @param filetypes not used
+#' @param hidden not used
 #'
 #' @return a list compatable with shinyfiles
 
 #'
-#' @examples
+#' @examples do.call(s3_dir_shiny_files_list, list(...))
 s3_dir_shiny_files_list <- function(roots, restrictions, filetypes, hidden=FALSE) {
   if (missing(filetypes)) filetypes <- NULL
   if (missing(restrictions)) restrictions <- NULL

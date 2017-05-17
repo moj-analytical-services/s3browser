@@ -110,7 +110,7 @@ parseSavePath <- function(roots, selection) {
 #'
 #' @return formatted s3 path command
 #'
-#' @examples
+#'
 shiy_js_to_s3tools_command <- function(df_in){
   df_in$datapath <- stringr::str_sub(df_in$datapath, 4)
   output_str <- stringr::str_interp("s3tools::s3_path_to_full_df(\"${df_in$datapath}\")")

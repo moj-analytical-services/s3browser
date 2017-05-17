@@ -15,3 +15,6 @@ df with required shinyfiles fields
 \description{
 Title
 }
+\examples{
+s3_dir_shiny_files('bucket/dir/')
+}
