@@ -21,10 +21,9 @@ file_explorer_s3 <- function() {
     gadgetTitleBar("S3 Explorer"),
     miniTabstripPanel(
       miniTabPanel("Browser", icon = icon("files-o"),
-                   miniContentPanel(
-                     shiny::includeMarkdown('widget_guide.md'),
-                     shinyFilesButton('file', 'File select', 'Please select a file', TRUE, buttonType = 'primary'),
-                     verbatimTextOutput('filepaths')
+                   miniContentPanel(fillRow(
+                     shiny::includeMarkdown(system.file('markdown/widget_guide.md', package = 's3browser')),
+                     shinyFilesButton('file', 'File select', 'Please select a file', TRUE, buttonType = 'primary'))
                    )
       ),
       miniTabPanel("Search", icon = icon("search"),
