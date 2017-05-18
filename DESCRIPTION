@@ -1,12 +1,11 @@
 Package: s3browser
 Type: Package
-Title: What the Package Does (Title Case)
+Title: A R Studio Addin that allows you to browse the files you have access to in S3
 Version: 0.1.0
 Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: Package contains (1) An implimentation of shinyFiles for S3 see:https://github.com/thomasp85/shinyFiles 
+    (2) A file search function
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -16,7 +15,13 @@ Imports:
   rstudioapi,
   DT,
   s3tools,
-  httpuv
+  tools,
+  htmltools,
+  jsonlite,
+  feather,
+  dplyr,
+  httpuv,
+  markdown
 Remotes: 
   moj-analytical-services/s3tools
 RoxygenNote: 6.0.1
