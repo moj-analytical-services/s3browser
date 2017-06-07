@@ -64,7 +64,8 @@ s3_dir_shiny_files <- function(current_path=''){
       purrr::map(aws.s3::get_bucket) %>%
       purrr::keep(function(x) {length(x) > 0}) %>%
       purrr::map(bucket_contents_to_shiny_files_df) %>%
-      dplyr::bind_rows() ->file_list
+      dplyr::bind_rows() %>%
+      dplyr::mutate(owner = as.character(owner)) ->file_list
 
     feather::write_feather(file_list, feather_location)
   }
