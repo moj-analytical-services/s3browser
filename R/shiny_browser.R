@@ -83,7 +83,7 @@ file_explorer_s3 <- function() {
     observeEvent(input$done, {
       id <- input$files_table_rows_selected
       if (!(is.null(id))) {
-        sel <- as.list(df[id,])
+        sel <- as.list(df_filtered()[id,])
         output_str <- stringr::str_interp("s3tools::s3_path_to_full_df(\"${sel$path}\")")
         rstudioapi::sendToConsole(output_str, execute = FALSE)
       }
@@ -93,6 +93,7 @@ file_explorer_s3 <- function() {
 
     observeEvent(input$files_table_rows_selected, {
       if (input$preview) {
+
         id <- input$files_table_rows_selected
         sel <- as.list(df[id,])
         tryCatch({df <- s3tools::s3_path_to_preview_df(sel$path)
@@ -102,8 +103,6 @@ file_explorer_s3 <- function() {
 
       }
     })
-
-
 
 
   }
