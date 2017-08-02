@@ -95,7 +95,7 @@ file_explorer_s3 <- function() {
       if (input$preview) {
 
         id <- input$files_table_rows_selected
-        sel <- as.list(df[id,])
+        sel <- as.list(df_filtered()[id,])
         tryCatch({df <- s3tools::s3_path_to_preview_df(sel$path)
         View(df)},
         error = function(e) {message("You selected a file that could not be previewed using read_csv")}
