@@ -34,7 +34,7 @@ file_explorer_s3 <- function() {
                        shiny::div(style="display: inline-block;vertical-align:top; width: 64%;",
                                   shiny::textInput("search", "Search (regex)", "")),
                        shiny::div(style="display: inline-block;vertical-align:middle; width: 30%;",
-                                  shiny::checkboxInput("preview", "Preview files?", TRUE))
+                                  shiny::checkboxInput("preview", "Preview files?", FALSE))
                        ,
                        DT::dataTableOutput("files_table", height= "400px")
                      ))
@@ -54,7 +54,7 @@ file_explorer_s3 <- function() {
       tryCatch(
         parseFilePaths(volumes,input$file) %$% datapath %>%
           purrr:::map(s3browser:::shiy_js_to_s3tools_command) %>%
-          purrr::map(rstudioapi:::insertText)
+          purrr::map(rstudioapi:::sendToConsole, execute=FALSE)
 
       )
       shiny::stopApp()
@@ -85,7 +85,7 @@ file_explorer_s3 <- function() {
       if (!(is.null(id))) {
         sel <- as.list(df[id,])
         output_str <- stringr::str_interp("s3tools::s3_path_to_full_df(\"${sel$path}\")")
-        rstudioapi::insertText(output_str)
+        rstudioapi::sendToConsole(output_str, execute = FALSE)
       }
       shiny::stopApp()
 
