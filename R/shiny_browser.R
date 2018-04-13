@@ -13,9 +13,9 @@ file_explorer_s3 <- function() {
 
   shiny::addResourcePath('sF', system.file('www', package='s3browser'))
 
-  df <- s3tools::accessible_files_df()
-
-  df <- df[,c("filename", "size_readable", "path")]
+  # buckets <- s3tools::accessible_buckets()
+  # df <- s3tools::accessible_files_df()
+  # df <- df[,c("filename", "size_readable", "path")]
 
   # Our ui will be a simple gadget page, which
   # simply displays the time in a 'UI' output.
@@ -27,18 +27,6 @@ file_explorer_s3 <- function() {
                      shiny::includeMarkdown(system.file('markdown', 'widget_guide.md', package = 's3browser')),
                      shinyFilesButton('file', 'File select', 'Please select a file', TRUE, buttonType = 'primary'))
                    )
-      ),
-      miniTabPanel("Search", icon = icon("search"),
-                   miniContentPanel(
-                     miniUI::miniContentPanel(
-                       shiny::div(style="display: inline-block;vertical-align:top; width: 64%;",
-                                  shiny::textInput("search", "Search (regex)", "")),
-                       shiny::div(style="display: inline-block;vertical-align:middle; width: 30%;",
-                                  shiny::checkboxInput("preview", "Preview files?", FALSE))
-                       ,
-                       DT::dataTableOutput("files_table", height= "400px")
-                     ))
-
       )))
 
   server <- function(input, output, session) {
@@ -60,25 +48,9 @@ file_explorer_s3 <- function() {
       shiny::stopApp()
     })
 
-    df_filtered <- shiny::reactive({
-      regex <- input$search
 
-      df2 <- tryCatch({
-        df %>%
-          dplyr::filter(stringr::str_detect(path, regex))
-      },
-      error = function(e) {
-        message("Your serach is not a valid regular expression, searching on exact string")
-        df %>%
-          dplyr::filter(stringr::str_detect(path, stringr::coll(regex)))
-      }
-      )
 
-      df2
-    })
-
-    output$files_table <-  DT::renderDataTable(df_filtered(), selection = list(mode = 'single', target = 'row'), options = list(dom = 'tp'))
-    # Listen for 'done' events. When we're finished, we'll
+     # Listen for 'done' events. When we're finished, we'll
     # insert the current time, and then stop the gadget.
     observeEvent(input$done, {
       id <- input$files_table_rows_selected
@@ -91,18 +63,7 @@ file_explorer_s3 <- function() {
 
     })
 
-    observeEvent(input$files_table_rows_selected, {
-      if (input$preview) {
 
-        id <- input$files_table_rows_selected
-        sel <- as.list(df_filtered()[id,])
-        tryCatch({df <- s3tools::s3_path_to_preview_df(sel$path)
-        View(df)},
-        error = function(e) {message("You selected a file that could not be previewed using read_csv")}
-        )
-
-      }
-    })
 
 
   }
