@@ -81,7 +81,7 @@
 #'
 #'
 #'
-shinyFileChoose <- function(input, id, updateFreq=2000, session = getSession(),
+shinyFileChoose <- function(input, id, updateFreq=200000, session = getSession(),
                             defaultRoot=NULL, defaultPath='', ...) {
   fileGet <- do.call(s3_dir_shiny_files_list, list(...))
   currentDir <- list()

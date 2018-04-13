@@ -41,6 +41,9 @@ bucket_contents_to_shiny_files_df <- function (bucket_contents) {
 }
 
 
+
+aws_get_bucket_memoised <- memoise::memoise(aws.s3::get_bucket)
+
 #' Title
 #'
 #' @param current_path
@@ -51,24 +54,53 @@ bucket_contents_to_shiny_files_df <- function (bucket_contents) {
 #' @examples s3_dir_shiny_files('bucket/dir/')
 s3_dir_shiny_files <- function(current_path=''){
 
+  message('fetching file tree...')
 
-  #Store a local copy of the dir structure and refresh once per minute
-  feather_location <- paste(system.file(package='s3browser'), 'dir.feather', sep='/')
-  if(file.exists(feather_location) &&
-     as.numeric(file.info(feather_location)$mtime) - as.numeric(Sys.time()) > -60){
-    file_list <- feather::read_feather(feather_location)
-  }else{
-    #Get files
-    message('fetching file tree...')
-    s3tools::accessible_buckets() %>%
-      purrr::map(aws.s3::get_bucket) %>%
-      purrr::keep(function(x) {length(x) > 0}) %>%
-      purrr::map(bucket_contents_to_shiny_files_df) %>%
-      dplyr::bind_rows() %>%
-      dplyr::mutate(owner = as.character(owner)) ->file_list
+  if(current_path == '') {
+      file_list <- dplyr::tibble(bucket = s3tools::accessible_buckets())
+      file_list["path"] <- paste0(file_list$bucket, "/")
+      file_list["key"] <- file_list["bucket"]
+      file_list["size"] <- 10
+      file_list["mtime"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["ctime"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["atime"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["size_readable"] <- 10
+      file_list["lastmodified"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["etag"] <- "etag"
+      file_list["owner"] <- "owner"
+      file_list["storageclass"] <- "STANDARD"
+    } else {
 
-    feather::write_feather(file_list, feather_location)
+    if (substr(current_path,1,1) == "/") {
+      current_path <- substr(current_path,2, nchar(current_path))
+    }
+
+    bucket <- sub("/.+","",current_path)
+
+    bucket_contents <- aws_get_bucket_memoised(bucket)
+
+    if (length(bucket_contents) > 0) {
+      print("length more than 0")
+      file_list <- bucket_contents_to_shiny_files_df(bucket_contents) %>%
+        dplyr::mutate(owner = as.character(owner))
+    } else {
+      print("length equal to 0")
+      file_list <- dplyr::tibble(bucket = c(paste0(current_path, "/")))
+      file_list["path"] <- paste0(file_list$bucket, "/")
+      file_list["key"] <- file_list["bucket"]
+      file_list["size"] <- 10
+      file_list["mtime"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["ctime"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["atime"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["size_readable"] <- 10
+      file_list["lastmodified"] <- as.POSIXct("2000-01-01-00-00-00")
+      file_list["etag"] <- "etag"
+      file_list["owner"] <- "owner"
+      file_list["storageclass"] <- "STANDARD"
+    }
   }
+
+
 
 
   #if path doesn't end with / then add it
@@ -82,8 +114,8 @@ s3_dir_shiny_files <- function(current_path=''){
                         stringr::str_sub(current_path, 2), current_path)
 
   #Subset to input folder and format for shinyfiles
-  file_list<-
-    file_list %>%
+
+  file_list <- file_list %>%
     dplyr::filter(stringr::str_detect(path, current_path)) %>%
     dplyr::mutate(path =
                     stringr::str_sub(path,
@@ -98,12 +130,9 @@ s3_dir_shiny_files <- function(current_path=''){
     dplyr::filter(filename!=".DS_Store")%>%
     dplyr::select(filename, extension, isdir, size, mtime, ctime, atime, path, size_readable, dplyr::everything())
 
-
-
-
   return(file_list)
 }
-
+s3_dir_shiny_files <- memoise::memoise(s3_dir_shiny_files)
 
 #' Title
 #'
