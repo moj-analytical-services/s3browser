@@ -1,11 +1,10 @@
 Package: s3browser
 Type: Package
 Title: A R Studio Addin that allows you to browse the files you have access to in S3
-Version: 0.1.1
+Version: 0.1.2
 Author: Robin Linacre and Will Bowditch
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: Package contains (1) An implimentation of shinyFiles for S3 see:https://github.com/thomasp85/shinyFiles 
-    (2) A file search function
+Description: Package contains an implimentation of shinyFiles for S3 see:https://github.com/thomasp85/shinyFiles 
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -21,7 +20,8 @@ Imports:
   feather,
   dplyr,
   httpuv,
-  markdown
+  markdown,
+  memoise
 Remotes: 
   moj-analytical-services/s3tools
 RoxygenNote: 6.0.1
