@@ -42,7 +42,8 @@ bucket_contents_to_shiny_files_df <- function (bucket_contents) {
 
 
 
-aws_get_bucket_memoised <- memoise::memoise(aws.s3::get_bucket)
+aws_get_bucket_memoised <- memoise::memoise(aws.s3::get_bucket, ~memoise::timeout(60))
+
 
 #' Title
 #'
@@ -132,7 +133,7 @@ s3_dir_shiny_files <- function(current_path=''){
 
   return(file_list)
 }
-s3_dir_shiny_files <- memoise::memoise(s3_dir_shiny_files)
+s3_dir_shiny_files <- memoise::memoise(s3_dir_shiny_files, ~memoise::timeout(60))
 
 #' Title
 #'
