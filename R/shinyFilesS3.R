@@ -78,7 +78,7 @@ s3_dir_shiny_files <- function(current_path=''){
 
     bucket <- sub("/.+","",current_path)
 
-    bucket_contents <- aws_get_bucket_memoised(bucket)
+    bucket_contents <- aws_get_bucket_memoised(bucket, check_region=TRUE)
 
     if (length(bucket_contents) > 0) {
       print("length more than 0")
